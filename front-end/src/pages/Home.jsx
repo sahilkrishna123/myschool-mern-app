@@ -11,7 +11,7 @@ const Home = () => {
         <nav className="bg-slate-800  p-4 text-white">
           <div className="max-w-6xl mx-auto flex items-center justify-between">
             <div className="flex space-x-4">
-              <span className="text-lg font-bold">My School</span>
+              <span className="text-lg font-bold">My-School</span>
             </div>
             <div className="flex items-center gap-4 text-sm text-slate-200">
               <a
