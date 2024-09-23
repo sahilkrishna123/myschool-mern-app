@@ -3,7 +3,7 @@ name: Deploy MERN App to Vercel
 on:
   push:
     branches:
-      - main  # Trigger deployment on push to 'main' branch
+      - main # Trigger deployment on push to 'main' branch
 
 jobs:
   deploy:
@@ -11,18 +11,18 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # # Install Node.js environment
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: '18.x'
+      # Install Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
-      # # Install dependencies for backend
-      # - name: Install Backend Dependencies
-      #   working-directory: ./backend
-      #   run: npm install
+      # Install dependencies for backend
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
 
       # # Install dependencies for frontend
       # - name: Install Frontend Dependencies
@@ -34,9 +34,30 @@ jobs:
       #   working-directory: ./frontend
       #   run: npm run build
 
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
       # Trigger Vercel deployment for both frontend and backend
-      - name: Trigger Vercel Deployment
+      - name: Trigger Vercel Deployment front-end
         run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
+
+      - name: Trigger Vercel Deployment back-end
+        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./back-end
+        env:
+          # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # AWS_REGION: ${{ secrets.AWS_REGION }}
+          DATABASE_STRING: ${{ secrets.DATABASE_STRING }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
+          JWT_COOKIE_EXPIRES_IN: ${{ secrets.JWT_COOKIE_EXPIRES_IN }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+          EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
 
       # # Deploy to Vercel using the Vercel CLI
       # - name: Deploy to Vercel
