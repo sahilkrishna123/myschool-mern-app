@@ -50,16 +50,16 @@ jobs:
         working-directory: ./back-end
         run: |
           vercel link --project myschool-mern-app-d7jt --token ${{ secrets.VERCEL_TOKEN }} --yes
-          vercel env add DATABASE_STRING production ${{ secrets.DATABASE_STRING }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add JWT_SECRET production ${{ secrets.JWT_SECRET }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add JWT_EXPIRES_IN production ${{ secrets.JWT_EXPIRES_IN }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add JWT_COOKIE_EXPIRES_IN production ${{ secrets.JWT_COOKIE_EXPIRES_IN }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add GMAIL_APP_PASSWORD production ${{ secrets.GMAIL_APP_PASSWORD }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add EMAIL_HOST production ${{ secrets.EMAIL_HOST }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add EMAIL_PORT production ${{ secrets.EMAIL_PORT }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add EMAIL_USERNAME production ${{ secrets.EMAIL_USERNAME }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add EMAIL_PASSWORD production ${{ secrets.EMAIL_PASSWORD }} --token ${{ secrets.VERCEL_TOKEN }}
-          vercel env add EMAIL_FROM production ${{ secrets.EMAIL_FROM }} --token ${{ secrets.VERCEL_TOKEN }}
+          vercel env add DATABASE_STRING production ${{ secrets.DATABASE_STRING }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add JWT_SECRET production ${{ secrets.JWT_SECRET }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add JWT_EXPIRES_IN production ${{ secrets.JWT_EXPIRES_IN }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add JWT_COOKIE_EXPIRES_IN production ${{ secrets.JWT_COOKIE_EXPIRES_IN }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add GMAIL_APP_PASSWORD production ${{ secrets.GMAIL_APP_PASSWORD }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add EMAIL_HOST production ${{ secrets.EMAIL_HOST }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add EMAIL_PORT production ${{ secrets.EMAIL_PORT }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add EMAIL_USERNAME production ${{ secrets.EMAIL_USERNAME }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add EMAIL_PASSWORD production ${{ secrets.EMAIL_PASSWORD }} --token ${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add EMAIL_FROM production ${{ secrets.EMAIL_FROM }} --token ${{ secrets.VERCEL_TOKEN }} --yes
 
       - name: Trigger Vercel Deployment back-end
         run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
