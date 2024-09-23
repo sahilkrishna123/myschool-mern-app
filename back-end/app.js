@@ -36,6 +36,12 @@ app.set("views", path.join(__dirname, "views"));
 // 1) GLOBAL MIDDLEWARES
 
 app.use(cors());
+app.use(
+  cors({
+    origin: "https://myschool-mern-app-backend.vercel.app",
+    credentials: true,
+  })
+);
 // Access-Control-Allow-Origin *
 // api.natours.com, front-end natours.com
 // app.use(cors({
