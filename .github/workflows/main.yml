@@ -42,7 +42,7 @@ jobs:
 
       # Link to Vercel Project (use project name or ID)
       - name: Link Vercel Project
-        run: vercel link --project myschool-mern-app-d7jt --token ${{ secrets.VERCEL_TOKEN }}
+        run: vercel link --project myschool-mern-app-d7jt --token ${{ secrets.VERCEL_TOKEN }} --yes
         working-directory: ./back-end
 
       # Set Vercel environment variables
