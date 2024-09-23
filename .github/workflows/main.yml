@@ -37,6 +37,14 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel
 
+      - name: Trigger Vercel Deployment front-end
+        run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
+
+      # Link to Vercel Project (use project name or ID)
+      - name: Link Vercel Project
+        run: vercel link --project myschool-mern-app-d7jt --token ${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./back-end
+
       # Set Vercel environment variables
       - name: Set Vercel Environment Variables
         run: |
@@ -50,10 +58,6 @@ jobs:
           vercel env add EMAIL_USERNAME production ${{ secrets.EMAIL_USERNAME }} --token ${{ secrets.VERCEL_TOKEN }}
           vercel env add EMAIL_PASSWORD production ${{ secrets.EMAIL_PASSWORD }} --token ${{ secrets.VERCEL_TOKEN }}
           vercel env add EMAIL_FROM production ${{ secrets.EMAIL_FROM }} --token ${{ secrets.VERCEL_TOKEN }}
-
-      # Trigger Vercel deployment for both frontend and backend
-      - name: Trigger Vercel Deployment front-end
-        run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
 
       - name: Trigger Vercel Deployment back-end
         run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
