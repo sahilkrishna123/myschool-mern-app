@@ -41,13 +41,15 @@ jobs:
         run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
 
       # Link to Vercel Project (use project name or ID)
-      - name: Link Vercel Project
-        run: vercel link --project myschool-mern-app-d7jt --token ${{ secrets.VERCEL_TOKEN }} --yes
-        working-directory: ./back-end
+      # - name: Link Vercel Project
+      #   run: vercel link --project myschool-mern-app-d7jt --token ${{ secrets.VERCEL_TOKEN }} --yes
+      #   working-directory: ./back-end
 
       # Set Vercel environment variables
       - name: Set Vercel Environment Variables
+        working-directory: ./back-end
         run: |
+          vercel link --project myschool-mern-app-d7jt --token ${{ secrets.VERCEL_TOKEN }} --yes
           vercel env add DATABASE_STRING production ${{ secrets.DATABASE_STRING }} --token ${{ secrets.VERCEL_TOKEN }}
           vercel env add JWT_SECRET production ${{ secrets.JWT_SECRET }} --token ${{ secrets.VERCEL_TOKEN }}
           vercel env add JWT_EXPIRES_IN production ${{ secrets.JWT_EXPIRES_IN }} --token ${{ secrets.VERCEL_TOKEN }}
