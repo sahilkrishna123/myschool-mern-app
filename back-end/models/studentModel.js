@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     ref: "User",
     required: true,
   },
@@ -23,6 +23,14 @@ const studentSchema = new mongoose.Schema({
   address: {
     type: String,
   },
+  // schoolId: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "School",
+  // },
+  // schoolApprovalStatus: {
+  //   type: String,
+  //   enum: ["pending", "approved", "Rejected"],
+  // },
 
   // classId: { type: mongoose.Schema.Types.ObjectId, ref: "Class" },
   // subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],

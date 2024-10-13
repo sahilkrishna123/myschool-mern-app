@@ -1,10 +1,16 @@
-import { catchAsync } from "../utils/catchAsync.js";
-import Student from "../models/studentModel.js";
-import * as factory from "./handlerFactory.js";
-import User from "../models/userModel.js";
-import AppError from "../utils/appError.js";
 import multer from "multer";
 import sharp from "sharp";
+
+// Import Utils
+import { catchAsync } from "../utils/catchAsync.js";
+import * as factory from "./handlerFactory.js";
+import AppError from "../utils/appError.js";
+
+// Import models
+import Student from "../models/studentModel.js";
+import User from "../models/userModel.js";
+import SchoolApproval from "../models/schoolApprovals.js";
+import School from "../models/schoolModel.js";
 
 // const multerStorage = multer.diskStorage({
 //   destination: (req, file, cb) => {
@@ -53,7 +59,6 @@ export const getDashboard = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       user,
-      students,
     },
   });
 });
@@ -111,3 +116,71 @@ export const deleteMe = catchAsync(async (req, res, next) => {
 });
 
 export const getUser = factory.getOne(User);
+
+export const approveSchoolAccess = catchAsync(async (req, res, next) => {
+  const status = req.body.schoolApprovalStatus; // "approved" or "rejected"
+
+  const student = await Student.findByIdAndUpdate(
+    req.params.id,
+    {
+      schoolApprovalStatus: status,
+    },
+    { new: true }
+  );
+
+  if (!student) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Student not found",
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    message: `School access ${status}`,
+    data: {
+      student,
+    },
+  });
+});
+
+export const schoolApprovalRequest = catchAsync(async (req, res, next) => {
+  // 1. Ensure the 'admins' field exists as an array and add the current user's ID
+  req.body.admins = req.body.admins || []; // If no admins are provided, create an empty array
+  req.body.admins.push(req.user._id); // Add the current user's ID to the admins array
+
+  // First, create the school using the School model
+  const school = await School.create(req.body);
+
+  //  Update the user with the new registered school ID
+  await User.findByIdAndUpdate(
+    req.user._id, // Get the authenticated user's ID
+    { registeredSchool: school._id }, // Add or update the registeredSchool field
+    { new: true, runValidators: true } // Return the updated document
+  );
+
+  // Then, create the schoolApprovalRequest using the newly created school's ID
+  const schoolApprovalRequest = await SchoolApproval.create({
+    schoolId: school._id,
+    name: school.name,
+  });
+  res.status(201).json({
+    status: "success",
+    message: "School approval request submitted",
+    data: {
+      school,
+      schoolApprovalRequest,
+    },
+  });
+});
+
+// await Student.create({
+//   userId: "670a2309203523123d5196a5", // Existing user ID
+//   enrollmentNumber: "EN123423345", // Unique enrollment number
+//   dateOfBirth: new Date("2000-01-01"), // Example date of birth
+//   firstName: "Moin", // First name
+//   lastName: "Ali", // Last name
+//   email: "sahilkrishna4@gmail.com", // Email
+//   address: "123 Main St, City, Country", // Example address
+//   // schoolId: "66f43a585666b2b1d9577da5",
+// });

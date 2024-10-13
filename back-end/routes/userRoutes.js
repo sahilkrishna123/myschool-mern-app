@@ -16,7 +16,7 @@ router.patch("/resetPassword/:token", authController.resetPassword);
 router.use(authController.protect);
 
 // User Dashboard
-router.get("/dashboard");
+router.get("/dashboard", userController.getDashboard);
 router.get("/me", userController.getMe, userController.getUser);
 router.patch(
   "/updateMe",
@@ -24,5 +24,6 @@ router.patch(
   userController.resizeUserPhoto,
   userController.updateMe
 );
+// router.post('/request-school-access', userController.requestSchoolAccess);
 router.patch("/deleteMe", userController.deleteMe);
 export default router;

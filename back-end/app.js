@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 
 import viewRouter from "./routes/viewRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import schoolRouter from "./routes/schoolRoutes.js";
 import AppError from "./utils/appError.js";
 import globalErrorHandler from "./controllers/errorController.js";
 
@@ -121,6 +122,7 @@ app.use(compression());
 
 // Routes
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/schools", schoolRouter);
 
 // Error Handling
 app.all("*", (req, res, next) => {

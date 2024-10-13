@@ -25,8 +25,8 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["student", "teacher", "principal", "admin"],
-    default: "student",
+    enum: ["student", "teacher", "principal", "admin", "pending"],
+    default: "pending",
   },
   photo: {
     type: String,
@@ -55,6 +55,14 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
     select: false,
+  },
+  registeredSchool: {
+    type: mongoose.Schema.ObjectId,
+    ref: "School",
+  },
+  currentSchoolId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "School",
   },
 });
 
